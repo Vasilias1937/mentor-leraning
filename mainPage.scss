@@ -11,8 +11,10 @@
     display: flex;
     align-items: center;
     justify-items: center;
+    width: 100%;
     height: 10vh;
     background-color: white;
+    padding: 0 2%;
 
     // > .header_notification_open{
     //     cursor: pointer;
@@ -27,7 +29,7 @@
     // }
     > .header_companyName {
         margin-left: 2%;
-        margin-right: 80%;
+        margin-right: auto;
     }
     > .header_img {
         background-color: white;
@@ -36,12 +38,27 @@
     > .header_link {
         background-color: white;
         cursor: pointer;
-        width: 3%;
+        width: 3vh;
+        height: 3vh;
+        margin-left: 2%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: none;
 
+        &:hover {
+            filter: drop-shadow(0 0 15px rgb(145, 56, 227));
+        }
+
+        &:active {
+            transform: scale(0.85);
+        }
 
         > .link_img {
-            justify-self: center;
-            width: 3vh;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
     }
 }
@@ -51,61 +68,82 @@
     display: grid;
     grid-template-rows: min-content max-content;
     grid-template-columns: repeat(3,1fr);
+    width: 100%;
+    padding: 0 2%;
 
     > .main_list {
         grid-column: 1/4;
         display: flex;
-        justify-content: center;
-        align-content: center;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem 0;
         
         > .main_list_header {
-            margin-right: 55%;
-            margin-left: 3%;
-            margin-top: 1%;
             font-weight: 900;
             font-size: 2.5em;
+            margin: 0;
+            flex: 1;
+            min-width: 300px;
         }
 
         > .main_list_select {
             cursor: pointer;
-            margin-right: 1%;
-            margin-top: 1%;
             border-radius: 10px;
             border-color: azure;
-            width: min-content;
-            height: 60%;
+            padding: 0.5em;
             font-size: 1.3em;
+            min-width: 200px;
+            height: auto;
+            background-color: white;
+            color: black;
+
+            &:hover {
+                filter: drop-shadow(0 0 5px rgb(145, 56, 227));
+            }
+
+            option {
+                background-color: white;
+                color: black;
+                padding: 10px;
+            }
+
+            option:checked {
+                background-color: rgb(145, 56, 227);
+                color: white;
+            }
+
         }
 
         > .main_list_addButton {
             cursor: pointer;
-            margin-right: 2%;
-            margin-top: 1%;
-            margin-bottom: 2%;
             font-size: 1.3em;
-            background-color: rgb(145, 56, 227);;
+            background-color: rgb(145, 56, 227);
             border-radius: 15px;
-            border-color: rgb(145, 56, 227);;
-            width: min-content;
-            height: 60%;
+            border-color: rgb(145, 56, 227);
+            padding: 0.5em 1em;
             color: rgb(255, 255, 255);
-        }
+            white-space: normal;
+            text-align: center;
+            min-width: 200px;
 
-        > .main_list_addButton:hover {
-            background-color: rgb(120, 18, 215);;
-        }
-
-        > .main_list_addButton:active {
-            background-color: rgb(87, 3, 166);;
+            &:hover {
+                filter: drop-shadow(0 0 10px rgb(145, 56, 227));
+            }
+    
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 
     > .listings {
         margin-top: 1%;
+        margin-bottom: 1%;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 20px;
-        padding: 20px;
         width: 100%;
         height: 70vh;
         grid-column: 1/4;
@@ -114,7 +152,7 @@
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-content: center;
             justify-items: center;
             align-items: center;
@@ -127,6 +165,8 @@
                 width: 100%;
                 height: auto;
                 object-fit: cover;
+                margin: 0;
+                padding: 0;
             }
 
             > .listings_card_info {
@@ -161,7 +201,7 @@
                     cursor: pointer;
                     grid-row: 3;
                     grid-column: 1/4;
-                    height: 70%;
+                    height: 100%;
                     margin: 2%;
                     font-size: 1.3em;
                     background-color: rgb(145, 56, 227);
@@ -180,11 +220,12 @@
             }
         }
         > .listings_card:hover {
-            scale: 1.05;
+            filter: drop-shadow(0 0 10px rgb(145, 56, 227));
+            transform: scale(1.05);
         }
 
         > .listings_card:active {
-            scale: 1.06;
+            transform: scale(1.04);
         }
     }
 } 
@@ -193,31 +234,53 @@
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(4,min-content);
+    min-width: 100%;
+    gap: 1rem;
 
     > .footer_part {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         grid-row: 1/5;
-        margin-left: 1%;
         font-size: 1.2em;
 
         > .logo {
             background-color:rgb(245, 245, 245);
-            width: 10vh;
-            margin-left: 1%;
+            width: 15%;
         }
     }
 
     > .first {
         grid-column: 2;
-        grid-row: 1/5;
     }
     > .second {
         grid-column: 3;
-        grid-row: 1/5;
     }
     > .third {
         grid-column: 4;
-        grid-row: 1/5;
+    }
+}
+
+@media(max-width: 768px) {
+    .footer {
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: repeat(4,min-content);
+
+        > .footer_part:first-child {
+            display: none;
+        }
+
+        > .first {
+            grid-column: 1;
+            grid-row: 1/5;
+        }
+        > .second {
+            grid-column: 2;
+            grid-row: 1/5;
+        }
+        > .third {
+            grid-column: 3;
+            grid-row: 1/5;
+        }
     }
 }
