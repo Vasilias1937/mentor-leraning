@@ -1,73 +1,106 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <main>
-        <section>
-            <h2>Блок с автомобилями</h2>
-            <ul>
-                <li>
-                    <strong>Легковые автомобили</strong>
-                    <ul>
-                        <li>Модель Ваза</li> 
-                        <li>Тойота Камри</li>
-                        <li>Мерседес-Бенц C-Класс</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Грузовые автомобили</strong>
-                    <ul>
-                        <li>Камаз</li>
-                        <li>Джип Грузовик</li>
-                        <li>Фура</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Мотоциклы</strong>
-                    <ul>
-                        <li>Ямаха</li>
-                        <li>Харлей Девидсон</li>
-                        <li>Кавасаки</li>
-                    </ul>
-                </li>
-            </ul>
-        </section>
-    
-        <section>
-            <h2>Блок с животными</h2>
-            <ul>
-                <li>
-                    <strong>Млекопитающие</strong>
-                    <ul>
-                        <li>Кот</li>
-                        <li>Человек</li>
-                        <li>Кит</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Птицы</strong>
-                    <ul>
-                        <li>Орел</li>
-                        <li>Ворон</li>
-                        <li>Канарейка</li>
-                    </ul>
-    
-                </li>
-                <li>
-                    <strong>Насекомые</strong>
-                    <ul>
-                        <li>Бабочка</li>
-                        <li>Муравей</li>
-                        <li>Паук</li>
-                    </ul>
-    
-                </li>
-            </ul>
-        </section>
-    </main>
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=PT+Sans+Narrow:wght@400;700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Stalinist+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/CSS/mainPage.css">
+        <link rel="icon" href="/Images/vintage-warehouse-logo-icon-symbol-rent-illustration-design-vector.jpg">
+        <title>scladPRO</title>
+    </head>
+
+    <body>
+
+        <header class="header">
+            <img src="/Images/logo.png" class="header_logo logo header_img" alt="логотип">
+            <h2 class="header_companyName">СкладПРО<button class="header_filterSidebar_open">&#9776</button></h2>
+            <aside class="header_filterSidebar" style="display: none;"></aside>
+            <a class="header_link"><img src="/Images/158722.png" class="link_liked link_img" alt="Сохраненные объявления"></a>
+            <a class="header_link"><img src="/Images/person_circle_icon_184777.webp" class="link_profile link_img" alt="Профиль"></a>
+        </header>
+
+        <main class="main">
+            <div class="main_list">
+                <h1 class="main_list_header">Доступные помещения</h1>
+                <select class="main_list_select">
+                    <option class="main_list_select__option">По дате</option>
+                    <option class="main_list_select__option">По убыванию цены</option>
+                    <option class="main_list_select__option">По возрастанию цены</option>
+                </select>
+                <button class="main_list_addButton">&plus; Разместить объявление</button>
+            </div> 
+
+            <div class="listings">
+
+                <div class="listings_card">
+                    <img src="/Images/3-1024x683.jpg" alt="фото помещения" class="listings_card_img">
+                    <div class="listings_card_info">
+                        <h2 class="listings_card_header">Складское помещение</h2>
+                        <h3 class="listings_card_price">450₽м²</h3>
+                        <p class="listings_card_address">Москва, Ул.Складская 3</p>
+                        <button class="listings_card_showMoreButton">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="listings_card">
+                    <img src="/Images/holodilnyi-sklad-1024x683.png" alt="фото помещения" class="listings_card_img">
+                    <div class="listings_card_info">
+                        <h2 class="listings_card_header">Складское помещение</h2>
+                        <h3 class="listings_card_price">450₽м²</h3>
+                        <p class="listings_card_address">Москва, Ул.Складская 3</p>
+                        <button class="listings_card_showMoreButton">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="listings_card">
+                    <img src="/Images/3-1024x683.jpg" alt="фото помещения" class="listings_card_img">
+                    <div class="listings_card_info">
+                        <h2 class="listings_card_header">Складское помещение</h2>
+                        <h3 class="listings_card_price">450₽м²</h3>
+                        <p class="listings_card_address">Москва, Ул.Складская 3</p>
+                        <button class="listings_card_showMoreButton">Подробнее</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+
+            <div class="footer_part">
+                <img src="/Images/logo.png" class="footer_logo logo footer_img" alt="логотип">
+                <h1 class="footer_companyName">СкладПРО</h1>
+                <p>Платформа для поиска и аренды складских помещениий</p>
+            </div>
+            <div class="footer_part first"> 
+                <h2 class="footer_companyName">О компании</h2>
+                <a href="">О нас</a>
+                <a href="">Контакты</a>
+                <a href="">Блог</a>
+                <a href="">Карьера</a>
+            </div>
+
+            <div class="footer_part second">
+                <h2 class="footer_companyName">Аредодателям</h2>
+                <a href="">Ращместить объявление</a>
+                <a href="">Правила размещения</a>
+                <a href="">Тарифы</a>
+                <a href="">Помощь</a>
+            </div>
+
+            <div class="footer_part third">
+                <h2 class="footer_companyName">Арендаторам</h2>
+                <a href="">Как это работает</a>
+                <a href="">Безопасная сделка</a>
+                <a href="">Поддержка</a>
+                <a href="">FAQ</a>
+            </div>
+
+        </footer>
+
+    </body>
+
 </html>
