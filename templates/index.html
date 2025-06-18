@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_list">
+    <h1 class="main_list_header">Доступные помещения</h1>
+    <select class="main_list_select filter-select" id="sortSelect">
+        <option value="date_desc">По дате</option>
+        <option value="price_asc">По возрастанию цены</option>
+        <option value="price_desc">По убыванию цены</option>
+        <option value="area_asc">По возрастанию площади</option>
+        <option value="area_desc">По убыванию площади</option>
+    </select>
+    <select id="roomTypeSelect" class="main_list_select filter-select">
+        <option value="">Все типы</option>
+        <option value="freezer">Морозильная камера</option>
+        <option value="warehouse">Складское помещение</option>
+        <option value="production">Производственное помещение</option>
+    </select>
+    <button type="button" class="main_list_addButton add-listing-btn">&plus; Разместить объявление</button>
+</div> 
+
+<div class="listings">
+    {% for listing in listings %}
+    <div class="listings_card">
+        {% if listing.images %}
+        <img src="{{ url_for('static', filename='uploads/' + listing.images[0].image_url) }}" alt="{{ listing.title }}" class="listings_card_img">
+        {% else %}
+        <img src="{{ url_for('static', filename='uploads/no-image.jpg') }}" alt="Нет изображения" class="listings_card_img">
+        {% endif %}
+        <div class="listings_card_info">
+            <h2 class="listings_card_header">{{ listing.title }}</h2>
+            <h3 class="listings_card_price">{{ listing.base_price }}₽м²</h3>
+            <p class="listings_card_address">{{ listing.city }}, {{ listing.address }}</p>
+            <p class="listings_card_type">Тип: {{ listing.room_type }}</p>
+            <a href="{{ url_for('listings.view', listing_id=listing.listing_id) }}" class="listings_card_showMoreButton">Подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.getElementById('sortSelect').addEventListener('change', function() {
+    const value = this.value;
+    let url = new URL(window.location.href);
+    url.searchParams.set('sort', value);
+    window.location.href = url.toString();
+});
+document.getElementById('roomTypeSelect').addEventListener('change', function() {
+    const value = this.value;
+    let url = new URL(window.location.href);
+    if (value) {
+        url.searchParams.set('room_type', value);
+    } else {
+        url.searchParams.delete('room_type');
+    }
+    window.location.href = url.toString();
+});
+</script>
+{% endblock %} 

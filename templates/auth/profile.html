@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет - СкладПРО{% endblock %}
+{% block content %}
+<div class="profile-container">
+    <h1>Личный кабинет</h1>
+    <div class="profile-info">
+        <p><strong>Имя:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Телефон:</strong> {{ user.phone }}</p>
+        <p><strong>Тип пользователя:</strong> {{ 'Арендодатель' if user.user_type == 'landlord' else 'Арендатор' }}</p>
+        {% if user.user_type == 'landlord' %}
+            <p><strong>Компания:</strong> {{ user.company_name }}</p>
+            <p><strong>ИНН:</strong> {{ user.tax_id }}</p>
+        {% endif %}
+    </div>
+    {% if user.user_type == 'landlord' %}
+    <div class="profile-listings">
+        <h2>Ваши объявления</h2>
+        {% if listings %}
+            <ul>
+            {% for listing in listings %}
+                <li>
+                    <strong>{{ listing.title }}</strong> — {{ listing.address }} ({{ listing.city }})<br>
+                    Цена: {{ listing.base_price }}₽/м², Площадь: {{ listing.area_sqm }} м²
+                    <div>
+                        <a href="{{ url_for('listings.edit', listing_id=listing.listing_id) }}" class="btn btn-sm btn-info">Редактировать</a>
+                        <form action="{{ url_for('listings.delete', listing_id=listing.listing_id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены, что хотите удалить это объявление?');">Удалить</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>У вас пока нет объявлений.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

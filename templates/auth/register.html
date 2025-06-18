@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация - СкладПРО{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h1>Регистрация</h1>
+    <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class="form-control") }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-control") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password2.label }}
+            {{ form.password2(class="form-control") }}
+            {% if form.password2.errors %}
+                {% for error in form.password2.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.first_name.label }}
+            {{ form.first_name(class="form-control") }}
+            {% if form.first_name.errors %}
+                {% for error in form.first_name.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.last_name.label }}
+            {{ form.last_name(class="form-control") }}
+            {% if form.last_name.errors %}
+                {% for error in form.last_name.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone.label }}
+            {{ form.phone(class="form-control") }}
+            {% if form.phone.errors %}
+                {% for error in form.phone.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.user_type.label }}
+            {{ form.user_type(class="form-control") }}
+            {% if form.user_type.errors %}
+                {% for error in form.user_type.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+    
+    <div class="auth-links">
+        <p>Уже есть аккаунт? <a href="{{ url_for('auth.login') }}">Войти</a></p>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    padding: 0.75rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.auth-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const userTypeSelect = document.querySelector('#user_type');
+    const companyFields = document.querySelectorAll('.company-fields');
+    
+    function toggleCompanyFields() {
+        const isLandlord = userTypeSelect.value === 'landlord';
+        companyFields.forEach(field => {
+            field.style.display = isLandlord ? 'block' : 'none';
+        });
+    }
+    
+    userTypeSelect.addEventListener('change', toggleCompanyFields);
+    toggleCompanyFields();
+});
+</script>
+{% endblock %} 

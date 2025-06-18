@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Бронирование помещения</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text">{{ listing.description }}</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Адрес:</strong> {{ listing.city }}, {{ listing.address }}</li>
+                        <li><strong>Площадь:</strong> {{ listing.area_sqm }} м²</li>
+                        <li><strong>Базовая цена:</strong> {{ listing.base_price }} ₽/мес</li>
+                        <li><strong>Минимальный срок аренды:</strong> {{ listing.min_lease_period_months }} месяцев</li>
+                    </ul>
+                </div>
+            </div>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            {{ form.start_date.label(class="form-label") }}
+                            {{ form.start_date(class="form-control", type="date", id="start_date") }}
+                            {% if form.start_date.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.start_date.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            {{ form.end_date.label(class="form-label") }}
+                            {{ form.end_date(class="form-control", type="date", id="end_date") }}
+                            {% if form.end_date.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.end_date.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if additional_services %}
+                <div class="form-group mb-3">
+                    {{ form.additional_services.label(class="form-label") }}
+                    {{ form.additional_services(class="form-select") }}
+                    {% if form.additional_services.errors %}
+                        <div class="text-danger">
+                            {% for error in form.additional_services.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Расчет стоимости</h6>
+                        <div id="price-calculation">
+                            <p>Выберите даты для расчета стоимости</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Забронировать</button>
+                <a href="{{ url_for('listings.view', listing_id=listing.listing_id) }}" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Календарь доступности</h5>
+                    <div id="calendar"></div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <span class="badge bg-success">Доступно</span>
+                            <span class="badge bg-danger">Забронировано</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    const priceCalculation = document.getElementById('price-calculation');
+    
+    // Устанавливаем минимальную дату как сегодня
+    const today = new Date().toISOString().split('T')[0];
+    startDateInput.min = today;
+    endDateInput.min = today;
+    
+    // Обновляем минимальную дату окончания при выборе даты начала
+    startDateInput.addEventListener('change', function() {
+        endDateInput.min = this.value;
+        calculatePrice();
+    });
+    
+    endDateInput.addEventListener('change', function() {
+        calculatePrice();
+    });
+    
+    function calculatePrice() {
+        const startDate = startDateInput.value;
+        const endDate = endDateInput.value;
+        
+        if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const days = (end - start) / (1000 * 60 * 60 * 24);
+            const months = days / 30.44;
+            
+            if (days > 0) {
+                const basePrice = {{ listing.base_price }} * months;
+                const additionalService = document.querySelector('#additional_services option:checked');
+                let additionalCost = 0;
+                
+                if (additionalService && additionalService.value !== '0') {
+                    // Извлекаем цену из текста опции
+                    const priceMatch = additionalService.text.match(/(\d+(?:\.\d+)?)/);
+                    if (priceMatch) {
+                        additionalCost = parseFloat(priceMatch[1]) * months;
+                    }
+                }
+                
+                const totalPrice = basePrice + additionalCost;
+                
+                priceCalculation.innerHTML = `
+                    <p><strong>Период:</strong> ${days} дней (${months.toFixed(1)} месяцев)</p>
+                    <p><strong>Базовая стоимость:</strong> ${basePrice.toFixed(2)} ₽</p>
+                    ${additionalCost > 0 ? `<p><strong>Дополнительные услуги:</strong> ${additionalCost.toFixed(2)} ₽</p>` : ''}
+                    <p><strong>Итого:</strong> <span class="text-primary fw-bold">${totalPrice.toFixed(2)} ₽</span></p>
+                `;
+            } else {
+                priceCalculation.innerHTML = '<p class="text-danger">Дата окончания должна быть после даты начала</p>';
+            }
+        } else {
+            priceCalculation.innerHTML = '<p>Выберите даты для расчета стоимости</p>';
+        }
+    }
+    
+    // Загружаем данные о доступности
+    fetch('{{ url_for("bookings.availability", listing_id=listing.listing_id) }}')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Забронированные даты:', data.booked_dates);
+            // Здесь можно добавить логику для отображения календаря
+        });
+});
+</script>
+{% endblock %} 

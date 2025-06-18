@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Редактировать объявление</h2>
+    <form method="POST" action="{{ url_for('listings.edit', listing_id=listing.listing_id) }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+            {% for error in form.title.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=5) }}
+            {% for error in form.description.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control") }}
+                {% for error in form.address.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                {{ form.city.label(class="form-label") }}
+                {{ form.city(class="form-control") }}
+                {% for error in form.city.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.region.label(class="form-label") }}
+                {{ form.region(class="form-control") }}
+                {% for error in form.region.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                {{ form.country.label(class="form-label") }}
+                {{ form.country(class="form-control") }}
+                {% for error in form.country.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                {{ form.postal_code.label(class="form-label") }}
+                {{ form.postal_code(class="form-control") }}
+                {% for error in form.postal_code.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4 mb-3">
+                {{ form.base_price.label(class="form-label") }}
+                {{ form.base_price(class="form-control") }}
+                {% for error in form.base_price.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4 mb-3">
+                {{ form.area_sqm.label(class="form-label") }}
+                {{ form.area_sqm(class="form-control") }}
+                {% for error in form.area_sqm.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {{ form.min_lease_period_months.label(class="form-label") }}
+            {{ form.min_lease_period_months(class="form-control") }}
+            {% for error in form.min_lease_period_months.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.room_type.label(class="form-label") }}
+            {{ form.room_type(class="form-select") }}
+            {% for error in form.room_type.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.images.label(class="form-label") }}
+            {{ form.images(class="form-control", multiple=True) }}
+            {% for error in form.images.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            <div class="form-text">Выберите одну или несколько фотографий (при необходимости заменить)</div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            <a href="{{ url_for('listings.view', listing_id=listing.listing_id) }}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %} 
